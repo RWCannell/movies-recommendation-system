@@ -1,7 +1,7 @@
 FROM postgres:14
 
 LABEL maintainer=RWCannell
-LABEL description="Postgres Image for pg-movies-recommendation-system"
+LABEL description="Postgres Image for database of movies-recommendation-system"
 LABEL version="1.0.0"
 
 ENV POSTGRES_DB=pg-mrs-db
