@@ -30,6 +30,7 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS oscar_winning_films;
 CREATE TABLE oscar_winning_films (
     id SERIAL PRIMARY KEY,
+    num SMALLINT,
     film VARCHAR NOT NULL,
     release_year SMALLINT,
     awards SMALLINT,
@@ -49,7 +50,7 @@ DELIMITER ','
 CSV HEADER;
 
 -- COPY oscar_winning_films TABLE FROM oscar_winning_films_1927_to_2022.csv
-COPY oscar_winning_films(film, release_year, awards, nominations)
+COPY oscar_winning_films(num, film, release_year, awards, nominations)
 FROM '/app/datasets/oscar_winning_films_1927_to_2022.csv'
 DELIMITER ','
 CSV HEADER;

@@ -16,4 +16,28 @@ The database has been populated with data from CSV files. The original datasets 
 
 - The [imdb_movies](datasets/imdb_movies.csv) table is the largest table and is populated with data about movies contained in the IMDB database. It was also downloaded from [Kaggle](https://www.kaggle.com/datasets/ashpalsingh1525/imdb-movies-dataset).  
 
-- The [users](datasets/users.csv) table was populated from a manually created CSV file.
+- The [users](datasets/users.csv) table was populated from a manually created CSV file.   
+
+## Using Docker to Run the Postgres Database
+The `Dockerfile` containing the image (postgres:14) and the instructions/parameters for the Postgres database is present in the root directory of this repository. The following Docker commands should be run from the root directory (where the `Dockerfile` exists):
+```bash
+# build the image locally
+docker build . -t rwcannell/pg-movies-recommendation-system-db:1.0.0   
+
+# run the container locally
+docker run -d --name mrs-db -p 5432:5432 rwcannell/pg-movies-recommendation-system-db:1.0.0   
+
+# push a tagged version of the image to Docker Hub
+docker push rwcannell/pg-movies-recommendation-system-db:1.0.0   
+
+# run the container by pulling the image from Docker Hub
+docker run rwcannell/pg-movies-recommendation-system-db:1.0.0
+```
+To enter the running container, we can use the following command:
+```bash
+docker exec -it mrs-db psql -U pg-mrs-user pg-mrs-db
+```
+The above command will enter the container and we'll be able to run `psql` queries, i.e.   
+```bash
+pg-mrs-db=# SELECT * FROM users;
+```
