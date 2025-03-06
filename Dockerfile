@@ -10,6 +10,6 @@ ENV POSTGRES_PASSWORD=pg-mrs-password
 
 RUN mkdir -p /app/datasets
 
-COPY datasets/* /app/datasets
+COPY datasets/* /app/datasets/
 
 COPY db/init-db.sql /docker-entrypoint-initdb.d/
