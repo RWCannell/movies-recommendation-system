@@ -22,16 +22,19 @@ The database has been populated with data from CSV files. The original datasets 
 The `Dockerfile` containing the image (postgres:14) and the instructions/parameters for the Postgres database is present in the root directory of this repository. The following Docker commands should be run from the root directory (where the `Dockerfile` exists):
 ```bash
 # build the image locally
-docker build . -t rwcannell/pg-movies-recommendation-system-db:1.0.0   
+docker build . -t rwcannell/pg-movies-recommendation-system-db:1.0.3   
 
 # run the container locally
-docker run -d --name mrs-db -p 5432:5432 rwcannell/pg-movies-recommendation-system-db:1.0.0   
+docker run --name mrs-db -p 5432:5432 -d rwcannell/pg-movies-recommendation-system-db:1.0.3   
 
 # push a tagged version of the image to Docker Hub
-docker push rwcannell/pg-movies-recommendation-system-db:1.0.0   
+docker push rwcannell/pg-movies-recommendation-system-db:1.0.3   
 
 # run the container by pulling the image from Docker Hub
-docker run rwcannell/pg-movies-recommendation-system-db:1.0.0
+docker run rwcannell/pg-movies-recommendation-system-db:1.0.3
+
+# run the container with environment variables explicitly specified and hostname set to localhost
+docker run --name mrs-db -p 5432:5432 -h 127.0.0.1 -e POSTGRES_USER=pg-mrs-user -e POSTGRES_PASSWORD=pg-mrs-password -d rwcannell/pg-movies-recommendation-system-db:1.0.3
 ```
 To enter the running container, we can use the following command:
 ```bash
@@ -40,4 +43,8 @@ docker exec -it mrs-db psql -U pg-mrs-user pg-mrs-db
 The above command will enter the container and we'll be able to run `psql` queries, i.e.   
 ```bash
 pg-mrs-db=# SELECT * FROM users;
+```
+To get the IP address of the Docker container, run the following command:
+```bash
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mrs-db
 ```
